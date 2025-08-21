@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zani Library - Free Ebooks Online</title>
+    <meta name="description" content="Zani Library - Free online ebooks platform with thousands of books, user reviews, and reading progress tracking">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fcf8 100%);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(134, 239, 172, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #16a34a;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 12px;
+            position: relative;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+            transform: perspective(100px) rotateX(10deg);
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 28px;
+            height: 20px;
+            background: white;
+            border-radius: 3px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .logo-icon::after {
+            content: 'Z';
+            position: absolute;
+            font-size: 20px;
+            font-weight: 900;
+            color: #16a34a;
+            transform: rotate(-15deg) translateX(8px);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #16a34a;
+            background: rgba(134, 239, 172, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: white;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #16a34a;
+            border: 2px solid #16a34a;
+        }
+
+        .btn-secondary:hover {
+            background: #16a34a;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Page content */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #16a34a, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #6b7280;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Search Bar */
+        .search-section {
+            padding: 40px 0;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3.5rem;
+            border: 2px solid rgba(134, 239, 172, 0.3);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-input:focus {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        /* Featured Books */
+        .featured-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #1f2937;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(134, 239, 172, 0.2);
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .book-author {
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .book-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .star {
+            color: #fbbf24;
+        }
+
+        .read-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .read-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Categories */
+        .categories-section {
+            padding: 80px 0;
+            background: rgba(134, 239, 172, 0.05);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            border-color: #22c55e;
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.2);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-count {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* Auth Forms */
+        .auth-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(134, 239, 172, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #22c55e;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
+        }
+
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1f2937;
+            font-size: 2rem;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #6b7280;
+        }
+
+        .form-footer a {
+            color: #16a34a;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(134, 239, 172, 0.2);
+        }
+
+        .dashboard-card h3 {
+            margin-bottom: 1rem;
+            color: #1f2937;
+            font-size: 1.3rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Reading Interface */
+        .reader-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            min-height: 80vh;
+        }
+
+        .reader-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(134, 239, 172, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .reader-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .font-control {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .font-control:hover {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .reader-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #374151;
+            text-align: justify;
+        }
+
+        .reader-content h1, .reader-content h2 {
+            color: #1f2937;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .reader-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #22c55e;
+        }
+
+        .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #22c55e;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #16a34a;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                padding: 1rem 2rem;
+            }
+            
+            .auth-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) perspective(100px) rotateX(10deg); }
+            50% { transform: translateY(-10px) perspective(100px) rotateX(10deg); }
+        }
+
+        .logo-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Success Messages */
+        .success-message {
+            background: #d1fae5;
+            border: 2px solid #22c55e;
+            color: #065f46;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* AdSense Ready Areas */
+        .ad-space {
+            min-height: 250px;
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            margin: 2rem 0;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo" onclick="showPage('home')">
+                <div class="logo-icon"></div>
+                Zani Library
+            </a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')" class="nav-link active">Home</a></li>
+                <li><a href="#" onclick="showPage('books')" class="nav-link">Books</a></li>
+                <li><a href="#" onclick="showPage('categories')" class="nav-link">Categories</a></li>
+                <li><a href="#" onclick="showPage('dashboard')" class="nav-link" id="dashboardLink" style="display: none;">Dashboard</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-secondary" onclick="showPage('signin')" id="signinBtn">Sign In</a>
+                <a href="#" class="btn btn-primary" onclick="showPage('signup')" id="signupBtn">Sign Up</a>
+                <a href="#" class="btn btn-secondary" onclick="logout()" id="logoutBtn" style="display: none;">Logout</a>
+            </div>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <!-- HOME PAGE -->
+    <div id="homePage" class="page active">
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Discover Your Next Great Read</h1>
+                    <p>Access thousands of free ebooks, track your reading progress, and join a community of book lovers. All completely free, forever.</p>
+                    <div class="hero-cta">
+                        <a href="#" class="btn btn-primary" onclick="showPage('signup')">Start Reading Free</a>
+                        <a href="#" class="btn btn-secondary" onclick="showPage('books')">Browse Books</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="search-section">
+            <div class="container">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search for books, authors, or genres..." id="mainSearchInput">
+                    <div class="search-icon">🔍</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-section">
+            <div class="container">
+                <h2 class="section-title">Featured Books</h2>
+                <div class="books-grid" id="featuredBooks">
+                    <!-- Books will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="ad-space">Advertisement Space - AdSense Ready</div>
+        </div>
+
+        <section class="categories-section">
+            <div class="container">
+                <h2 class="section-title">Browse by Category</h2>
+                <div class="categories-grid" id="categoriesGrid">
+                    <!-- Categories will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SIGN UP PAGE -->
+    <div id="signupPage" class="page">
+        <div class="container">
+            <div class="auth-container">
+                <form class="auth-form" id="signupForm">
+                    <h2>Join Zani Library</h2>
+                    <div id="signupMessage"></div>
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address</label>
+                        <input type="email" id="signupEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                    <div class="form-footer">
+                        Already have an account? <a href="#" onclick="showPage('signin')">Sign in here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIGN IN PAGE -->
+    <div id="signinPage" class="page">
+        <div class="container">
+            <div class="auth-container">
+                <form class="auth-form" id="signinForm">
+                    <h2>Welcome Back</h2>
+                    <div id="signinMessage"></div>
+                    <div class="form-group">
+                        <label for="signinEmail">Email Address</label>
+                        <input type="email" id="signinEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signinPassword">Password</label>
+                        <input type="password" id="signinPassword" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+                    <div class="form-footer">
+                        Don't have an account? <a href="#" onclick="showPage('signup')">Sign up here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOKS PAGE -->
+    <div id="booksPage" class="page">
+        <div class="container">
+            <h1 class="section-title" style="margin-bottom: 2rem;">All Books</h1>
+            <div class="search-bar" style="margin-bottom: 3rem;">
+                <input type="text" class="search-input" placeholder="Search books..." id="booksSearchInput">
+                <div class="search-icon">🔍</div>
+            </div>
+            <div class="books-grid" id="allBooks">
+                <!-- All books will be loaded here -->
+            </div>
+            <div class="ad-space">Advertisement Space - AdSense Ready</div>
+        </div>
+    </div>
+
+    <!-- CATEGORIES PAGE -->
+    <div id="categoriesPage" class="page">
+        <div class="container">
+            <h1 class="section-title" style="margin-bottom: 3rem;">Browse Categories</h1>
+            <div class="categories-grid" id="allCategories">
+                <!-- All categories will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage" class="page">
+        <div class="container">
+            <h1 class="section-title">My Dashboard</h1>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>📖 Currently Reading</h3>
+                    <div id="currentlyReading">
+                        <p>No books currently being read</p>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>📊 Reading Stats</h3>
+                    <p><strong>Books Read:</strong> <span id="booksRead">0</span></p>
+                    <p><strong>Total Reading Time:</strong> <span id="readingTime">0 hours</span></p>
+                    <p><strong>Favorite Genre:</strong> <span id="favoriteGenre">None yet</span></p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>⭐ My Reviews</h3>
+                    <div id="userReviews">
+                        <p>No reviews written yet</p>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>🔖 Bookmarked</h3>
+                    <div id="bookmarkedBooks">
+                        <p>No bookmarked books</p>
+                    </div>
+                </div>
+            </div>
+            <div class="ad-space">Advertisement Space - AdSense Ready</div>
+        </div>
+    </div>
+
+    <!-- READING PAGE -->
+    <div id="readingPage" class="page">
+        <div class="container">
+            <div class="reader-container">
+                <div class="reader-header">
+                    <div>
+                        <h2 id="bookTitle">Book Title</h2>
+                        <p id="bookAuthor">Author</p>
+                    </div>
+                    <div class="reader-controls">
+                        <button class="font-control" onclick="changeFontSize(-1)">A-</button>
+                        <button class="font-control" onclick="changeFontSize(1)">A+</button>
+                        <button class="btn btn-secondary" onclick="showPage('books')">← Back to Books</button>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="readingProgress" style="width: 0%"></div>
+                </div>
+                <div class="reader-content" id="bookContent">
+                    <!-- Book content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Zani Library</h3>
+                    <p>Your gateway to free knowledge and endless reading adventures.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#" onclick="showPage('books')">Browse Books</a>
+                    <a href="#" onclick="showPage('categories')">Categories</a>
+                    <a href="#" onclick="showPage('home')">About Us</a>
+                    <a href="#" onclick="showPage('home')">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Account</h3>
+                    <a href="#" onclick="showPage('signup')">Sign Up</a>
+                    <a href="#" onclick="showPage('signin')">Sign In</a>
+                    <a href="#" onclick="showPage('dashboard')">My Dashboard</a>
+                    <a href="#" onclick="showPage('books')">Reading List</a>
+                </div>
+                <div class
