@@ -11,7 +11,7 @@ A modern, free ebooks platform where users can read books online, track progress
 - 🎨 Modern UI with smooth animations
 
 ## Live Demo
-Visit: https://yourusername.github.io/zani-library
+Visit: https://yourusername.github.io/zanilibrary-
 
 ## Tech Stack
 - HTML5, CSS3, JavaScript
