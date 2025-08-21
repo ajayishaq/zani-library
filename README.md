@@ -1,19 +1,28 @@
-# Zani Library
+# Zani Library 📚
 
-A modern, free ebooks platform where users can read books online, track progress, and leave reviews.
+A modern, responsive free ebooks platform built with HTML, CSS, and JavaScript.
 
-## Features
-- 📚 Free ebook reading
-- 🔍 Advanced search functionality
-- 👤 User accounts with progress tracking
-- ⭐ Book reviews and ratings
-- 📱 Fully responsive design
-- 🎨 Modern UI with smooth animations
+## Features ✨
 
-## Live Demo
-Visit: https://yourusername.github.io/zanilibrary-
+- 🔍 **Advanced Search** - Find books by title, author, or genre
+- 📖 **Reading Interface** - Clean, distraction-free reading experience
+- 👤 **User Accounts** - Track progress and bookmark favorites
+- ⭐ **Reviews & Ratings** - Community-driven book recommendations
+- 📱 **Mobile Responsive** - Perfect on all devices
+- 🎨 **Modern UI** - Beautiful animations and smooth interactions
+- 🔖 **Progress Tracking** - Never lose your place
+- 📊 **Reading Statistics** - Monitor your reading habits
+- 🌐 **PWA Support** - Install as a mobile app
+- 🚀 **SEO Optimized** - Built for search engines
 
-## Tech Stack
-- HTML5, CSS3, JavaScript
-- Modern responsive design
-- Google AdSense ready
+## Live Demo 🌍
+
+Visit: [https://yourusername.github.io/zani-library](https://yourusername.github.io/zani-library)
+
+## Tech Stack 💻
+
+- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
+- **Design**: CSS Grid, Flexbox, CSS Custom Properties
+- **Features**: Local Storage, Service Workers, Web APIs
+- **SEO**: Structured Data, Open Graph, Twitter Cards
+- **Performance**: Lazy Loading, Image Optimization, Caching
